@@ -56,6 +56,35 @@ else
     fi
 fi
 
+if ! command -v mise >/dev/null; then
+    echo "Mise not found on this host, installing using official script"
+    curl https://mise.run | sh && \
+    mkdir -p ~/.config/mise && \
+    echo '~/.local/bin/mise activate fish | source' >> ~/.config/fish/config.fish || echo 'eval "$(~/.local/bin/mise activate bash)"' >> ~/.bashrc 
+fi
+
+if command -v mise >/dev/null; then
+    echo "Replacing Mise config"
+cat > ~/.config/mise/config.toml << EOF
+[tools]
+age = "latest"
+bat = "latest"
+btop = "latest"
+chezmoi = "latest"
+fd = "latest"
+fzf = "latest"
+lazygit = "latest"
+lsd = "latest"
+neovim = "latest"
+gopass = "latest"
+ripgrep = "latest"
+uv = "latest"
+yazi = "latest"
+zoxide = "latest"
+EOF
+    mise up
+fi
+
 # Re-enable exit on error
 set -e
 
