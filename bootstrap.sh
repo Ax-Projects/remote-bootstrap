@@ -88,5 +88,11 @@ fi
 # Re-enable exit on error
 set -e
 
+# Installing devpod CLI if docker is present on the system
+if command -v docker >/dev/null 2>&1; then
+    echo "Docker detected! Installing DevPod CLI..."
+    curl -L -o devpod "https://github.com/loft-sh/devpod/releases/latest/download/devpod-linux-amd64" && sudo install -c -m 0755 devpod /usr/local/bin && rm -f devpod
+fi
+
 echo "=== Bootstrap Complete! ==="
 echo "ACTION REQUIRED: Please log out of this SSH session, and reconnect using your socket forwarding flags."
